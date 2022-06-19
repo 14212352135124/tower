@@ -1,0 +1,107 @@
+local Framework = loadstring(game:HttpGet("https://pastebinp.com/raw/KP1dUHFg"))()
+local Watermark = Framework:CreateWatermark("TypeHub | {game} | {fps}")
+local WriteLine = Framework:CreateWindow("Slap Battles", Vector2.new(492, 588), Enum.KeyCode.RightControl)
+
+
+
+
+local General = WriteLine:CreateTab("Main")
+local Main = General:CreateSector("Player", "right")
+local Main3 = General:CreateSector("Misc", "left")
+General:CreateConfigSystem("left")
+
+
+
+Main:AddToggle("Enable Jump Power", false, function(v)
+    if v == true then
+        getgenv().JumpPowerValue = _G.JumpPower; 
+        local Player = game:service'Players'.LocalPlayer;
+        Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+        end)
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+        end 
+    if v == false then
+        getgenv().JumpPowerValue = 50; 
+        local Player = game:service'Players'.LocalPlayer;
+        Player.Character.Humanoid:GetPropertyChangedSignal'JumpPower':Connect(function()
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+        end)
+        Player.Character.Humanoid.JumpPower = getgenv().JumpPowerValue;
+    end
+end)
+    
+Main:AddSlider("Jump Power", 5, 5, 1000, 1, function(v)
+    _G.JumpPower = v
+end)
+
+
+Main:AddToggle("Infinite Jump", false,function(v)
+    if v == true then
+        local Player = game:GetService'Players'.LocalPlayer;
+    local UIS = game:GetService'UserInputService';
+     
+    _G.JumpHeight = 50;
+     
+    function Action(Object, Function) if Object ~= nil then Function(Object); end end
+     
+    UIS.InputBegan:connect(function(UserInput)
+        if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+            Action(Player.Character.Humanoid, function(self)
+                if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+                    Action(self.Parent.HumanoidRootPart, function(self)
+                        self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+                    end)
+                end
+            end)
+        end
+    end)
+    end
+if v == false then
+        local Player = game:GetService'Players'.LocalPlayer;
+    local UIS = game:GetService'UserInputService';
+     
+    _G.JumpHeight = 0;
+     
+    function Action(Object, Function) if Object ~= nil then Function(Object); end end
+     
+    UIS.InputBegan:connect(function(UserInput)
+        if UserInput.UserInputType == Enum.UserInputType.Keyboard and UserInput.KeyCode == Enum.KeyCode.Space then
+            Action(Player.Character.Humanoid, function(self)
+                if self:GetState() == Enum.HumanoidStateType.Jumping or self:GetState() == Enum.HumanoidStateType.Freefall then
+                    Action(self.Parent.HumanoidRootPart, function(self)
+                        self.Velocity = Vector3.new(0, _G.JumpHeight, 0);
+                    end)
+                end
+            end)
+        end
+    end)
+    end
+end)
+
+Main3:AddButton("Teleport to end", function()
+    for i, v in pairs(game.Workspace:FindFirstChild("tower"):FindFirstChild("finishes"):GetChildren()) do
+        game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(v.Position)
+        wait(0.1)
+        end
+        
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Workspace.tower.sections.finish.FinishGlow.Position)
+        wait(1.5)
+end)
+
+
+Main3:AddLabel("Execute when you server hop.")
+
+Main3:AddButton("Auto Farm", function()
+    while wait() do
+        for i, v in pairs(game.Workspace:FindFirstChild("tower"):FindFirstChild("finishes"):GetChildren()) do
+        game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(v.Position)
+        wait(0.1)
+        end
+        
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Workspace.tower.sections.finish.FinishGlow.Position)
+        wait(1.5)
+        game:GetService("TeleportService"):Teleport(1962086868, game:GetService("Players").LocalPlayer)
+    end
+end)
+
